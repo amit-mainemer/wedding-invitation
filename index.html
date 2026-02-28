@@ -11,15 +11,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Pinyon+Script&family=Playfair+Display:wght@400;500;600&family=Montserrat:wght@300;400;500;600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700&family=Cormorant+Garamond:wght@400;500;600&family=Pinyon+Script&family=Playfair+Display:wght@400;500;600&family=Montserrat:wght@300;400;500;600&display=swap"
       rel="stylesheet"
-    />
-
-    <link
-      rel="stylesheet"
-      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
-      crossorigin=""
     />
 
     <link rel="preload" as="image" href="./assets/opening-envelope.gif" />
@@ -87,15 +80,14 @@
 
       <section class="section reveal rtl" id="map">
         <div class="container">
-          <h2 class="section-title">מפה</h2>
+          <h2 class="section-title">מיקום</h2>
           <div class="card map-card">
-            <div class="map-wrap">
-              <div id="leafletMap" class="leaflet-map" aria-label="מפת גאמוס ריזורט"></div>
+            <div class="card-pad map-text">
+              <div class="map-text__line">Gamos Resort - די זהב 7 מעלה אדומים</div>
             </div>
-         
           </div>
           <a
-          class="btn btn--waze"
+          class="btn btn--waze btn--wide"
           style="margin-top: 20px;"
           href="https://waze.com/ul?ll=31.797333,35.331861&navigate=yes"
           target="_blank"
@@ -110,17 +102,28 @@
         <div class="container">
           <h2 class="section-title">הצטרפו להסעה</h2>
           <p class="muted">
-            הצטרפו לקבוצת הוואטסאפ להסעות כדי לתאם טרמפים ונסיעות משותפות.
+            בחרו מסלול ואז הצטרפו להסעה.
           </p>
+          <div class="ride-picker" role="radiogroup" aria-label="בחירת נסיעה">
+            <input type="radio" name="ride" id="ride-both" value="both" checked />
+            <label class="ride-option" for="ride-both">הלוך וחזור מהחתונה</label>
+
+            <input type="radio" name="ride" id="ride-to" value="to" />
+            <label class="ride-option" for="ride-to">הלוך לחתונה</label>
+
+            <input type="radio" name="ride" id="ride-back" value="back" />
+            <label class="ride-option" for="ride-back">חזור מהחתונה</label>
+          </div>
+
           <a
-          class="btn"
-          id="whatsappLink"
-          href="https://chat.whatsapp.com/REPLACE_ME"
-          target="_blank"
-          rel="noreferrer"
-        >
-          הצטרפו לקבוצה
-        </a>
+            class="btn btn--wide"
+            id="whatsappLink"
+            href="https://chat.whatsapp.com/REPLACE_ME"
+            target="_blank"
+            rel="noreferrer"
+          >
+            הצטרפו להסעה
+          </a>
       
         </div>
       </section>
@@ -157,6 +160,43 @@
         </div>
       </section>
 
+      <section class="section reveal rtl paper-section" id="faq">
+        <div class="container">
+          <h2 class="section-title">שאלות ותשובות</h2>
+          <div class="section-subtitle" style="text-transform: none; letter-spacing: 0.02em;">
+            כל מה שאתם צריכים לדעת מראש מופיע כאן
+          </div>
+
+          <div class="faq-list" aria-label="שאלות ותשובות">
+            <div class="faq-item">
+              <button class="faq-q" type="button" aria-expanded="false">
+                <span class="faq-q__text">איך מגיעים לחתונה?</span>
+                <span class="faq-icon" aria-hidden="true"></span>
+              </button>
+              <div class="faq-a" aria-hidden="true">
+                יש הסעות לאירוע מתל אביב, ממליצים להרשם לכל מי שמעוניין לשתות. למגיעים ברכב פרטי- שימו בווייז ״גאמוס״
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-q" type="button" aria-expanded="false">
+                <span class="faq-q__text">האם יש חניה?</span>
+                <span class="faq-icon" aria-hidden="true"></span>
+              </button>
+              <div class="faq-a" aria-hidden="true">כן!</div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-q" type="button" aria-expanded="false">
+                <span class="faq-q__text">מה קוד הלבוש לחתונה?</span>
+                <span class="faq-icon" aria-hidden="true"></span>
+              </button>
+              <div class="faq-a" aria-hidden="true">אנחנו רוצים לראות אתכם צבעוניים וחגיגיים</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <footer class="footer">
         <div class="container">
           <div class="footer-mark">Niki &amp; Amit</div>
@@ -164,11 +204,6 @@
       </footer>
     </main>
 
-    <script
-      src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
-      crossorigin=""
-    ></script>
     <script src="./script.js"></script>
   </body>
 </html>

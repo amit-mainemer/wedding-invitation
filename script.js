@@ -7,19 +7,18 @@
   const openingOverlayImg = openingOverlay ? openingOverlay.querySelector("img") : null;
   const downBtn = document.getElementById("downBtn");
   const timeline = document.getElementById("timeline");
-  const mapEl = document.getElementById("leafletMap");
 
   const prefersReducedMotion =
     "matchMedia" in window ? window.matchMedia("(prefers-reduced-motion: reduce)").matches : false;
 
   const OPENING_GIF_MS = 800;
-  const WHITE_FADE_IN_MS = 450; // matches CSS transition on .white-fade
+  const WHITE_FADE_IN_MS = 650; // matches CSS transition on .white-fade
+  const HIDE_OVERLAY_EARLY_MS = 260; // prevents the GIF from reaching a second loop
   const OPENING_GIF_URL = "./assets/opening-envelope.gif";
 
   const setOpened = () => {
     body.classList.add("opened");
     body.classList.remove("opening");
-    body.classList.remove("entering");
     body.classList.remove("playing-envelope");
     body.classList.remove("show-envelope-gif");
     body.classList.remove("is-locked");
@@ -45,6 +44,7 @@
       body.classList.add("entering");
       setTimeout(() => {
         setOpened();
+        body.classList.remove("entering");
         window.scrollTo({ top: 0, left: 0 });
       }, 200);
       return;
@@ -66,10 +66,16 @@
       // so we never flash the background underneath.
       body.classList.add("entering");
 
+      // Hide the GIF overlay early during the white fade so the GIF can't restart.
       setTimeout(() => {
         if (openingOverlay) openingOverlay.setAttribute("aria-hidden", "true");
         body.classList.remove("show-envelope-gif");
+      }, HIDE_OVERLAY_EARLY_MS);
+
+      setTimeout(() => {
         setOpened();
+        // Let the page start fading in, then fade out the white overlay smoothly.
+        setTimeout(() => body.classList.remove("entering"), 60);
         window.scrollTo({ top: 0, left: 0 });
       }, WHITE_FADE_IN_MS);
     }, OPENING_GIF_MS);
@@ -150,42 +156,43 @@
     onScroll();
   }
 
+  // FAQ accordion
+  const faqButtons = Array.from(document.querySelectorAll(".faq-q"));
+  const setFaqOpen = (btn, open) => {
+    const item = btn.closest(".faq-item");
+    if (!item) return;
+    const panel = item.querySelector(".faq-a");
+    if (!panel) return;
+
+    item.classList.toggle("is-open", open);
+    btn.setAttribute("aria-expanded", open ? "true" : "false");
+    panel.setAttribute("aria-hidden", open ? "false" : "true");
+
+    if (open) {
+      panel.style.maxHeight = panel.scrollHeight + "px";
+    } else {
+      panel.style.maxHeight = "0px";
+    }
+  };
+
+  for (const btn of faqButtons) {
+    btn.addEventListener("click", () => {
+      const item = btn.closest(".faq-item");
+      const isOpen = item ? item.classList.contains("is-open") : false;
+      setFaqOpen(btn, !isOpen);
+    });
+  }
+
+  window.addEventListener("resize", () => {
+    for (const btn of faqButtons) {
+      const item = btn.closest(".faq-item");
+      if (!item || !item.classList.contains("is-open")) continue;
+      const panel = item.querySelector(".faq-a");
+      if (!panel) continue;
+      panel.style.maxHeight = panel.scrollHeight + "px";
+    }
+  });
+
   // Always show the intro on refresh; user must click to enter.
 
-  // Map (Leaflet) with a big custom pin.
-  if (mapEl && window.L) {
-    const gamosLatLng = [31.797333, 35.331861]; // Mishor Adumim area (approx.)
-    const map = window.L.map(mapEl, {
-      zoomControl: false,
-      scrollWheelZoom: false,
-      dragging: true,
-      tap: true,
-    }).setView(gamosLatLng, 13);
-
-    window.L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-      maxZoom: 19,
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-    }).addTo(map);
-
-    const icon = window.L.divIcon({
-      className: "gamos-pin",
-      html: '<div class="gamos-pin__dot"></div><div class="gamos-pin__label">Gamos</div>',
-      iconSize: [140, 140],
-      iconAnchor: [70, 120],
-    });
-
-    const marker = window.L.marker(gamosLatLng, { icon }).addTo(map);
-    marker.on("click", () => {
-      window.open("https://waze.com/ul?ll=31.797333,35.331861&navigate=yes", "_blank", "noopener");
-    });
-
-    // Enable zoom on intentional interaction only.
-    mapEl.addEventListener(
-      "click",
-      () => {
-        map.scrollWheelZoom.enable();
-      },
-      { once: true }
-    );
-  }
 })();
