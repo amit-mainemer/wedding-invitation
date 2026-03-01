@@ -93,36 +93,13 @@
     downBtn.addEventListener("click", () => smoothScrollTo(timeline));
   }
 
-  // Years carousel controls (desktop arrows).
+  // Years carousel is swipe/scroll-only (no arrows).
   const yearsTrack = document.getElementById("yearsTrack");
-  const yearsPrev = document.querySelector(".years-nav--prev");
-  const yearsNext = document.querySelector(".years-nav--next");
-
-  const scrollYearsTo = (dir) => {
-    if (!yearsTrack) return;
-    const slides = Array.from(yearsTrack.querySelectorAll(".years-slide"));
-    if (!slides.length) return;
-
-    const viewportMid = yearsTrack.scrollLeft + yearsTrack.clientWidth / 2;
-    let currentIdx = 0;
-    let bestDist = Infinity;
-    for (let i = 0; i < slides.length; i++) {
-      const el = slides[i];
-      const mid = el.offsetLeft + el.offsetWidth / 2;
-      const d = Math.abs(mid - viewportMid);
-      if (d < bestDist) {
-        bestDist = d;
-        currentIdx = i;
-      }
-    }
-
-    const nextIdx = Math.max(0, Math.min(slides.length - 1, currentIdx + dir));
-    slides[nextIdx].scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
-  };
-
-  // Map: "<" = back, ">" = next
-  if (yearsPrev) yearsPrev.addEventListener("click", () => scrollYearsTo(-1));
-  if (yearsNext) yearsNext.addEventListener("click", () => scrollYearsTo(1));
+  if (yearsTrack) {
+    yearsTrack.style.cursor = "grab";
+    yearsTrack.addEventListener("mousedown", () => (yearsTrack.style.cursor = "grabbing"));
+    window.addEventListener("mouseup", () => (yearsTrack.style.cursor = "grab"));
+  }
 
   // Fade-in on scroll
   const revealEls = Array.from(document.querySelectorAll(".reveal"));

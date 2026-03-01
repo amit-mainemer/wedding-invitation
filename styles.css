@@ -449,7 +449,7 @@ body.opened .page {
   content: "";
   position: absolute;
   inset: 0;
-  background: url("./assets/homepage.png") center / cover no-repeat;
+  background: url("./assets/homepage.png") center 60% / cover no-repeat;
   transform: scale(1.02);
   transition: transform 1200ms cubic-bezier(0.16, 1, 0.3, 1);
   z-index: 0;
@@ -457,6 +457,12 @@ body.opened .page {
 
 body.opened .hero::before {
   transform: scale(1.06);
+}
+
+@media (min-width: 820px) {
+  .hero::before {
+    background-image: url("./assets/homepage-lg.png");
+  }
 }
 
 .hero > * {
@@ -486,7 +492,7 @@ body.opened .hero::before {
   font-weight: 500;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  font-size: clamp(15px, 1.7vw, 18px);
+  font-size: clamp(0.95rem, 2vh, 1.125rem);
   color: rgba(60, 38, 24, 0.72);
   text-shadow: 0 2px 18px rgba(255, 255, 255, 0.85);
 }
@@ -495,7 +501,7 @@ body.opened .hero::before {
   font-family: "Pinyon Script", var(--serif-a), serif;
   font-weight: 400;
   letter-spacing: 0.01em;
-  font-size: clamp(64px, 9.6vw, 120px);
+  font-size: clamp(4rem, 8vh, 7.5rem);
   color: rgba(60, 38, 24, 0.92);
   text-shadow:
     0 2px 24px rgba(255, 255, 255, 0.90),
@@ -511,7 +517,7 @@ body.opened .hero::before {
   font-weight: 400;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  font-size: 14px;
+  font-size: clamp(0.82rem, 1.8vh, 0.95rem);
   color: rgba(60, 38, 24, 0.78);
   text-shadow: 0 2px 18px rgba(255, 255, 255, 0.80);
 }
@@ -521,7 +527,7 @@ body.opened .hero::before {
   letter-spacing: 0.22em;
   text-transform: uppercase;
   color: rgba(0, 0, 0, 0.62);
-  font-size: 14px;
+  font-size: clamp(0.82rem, 1.8vh, 0.95rem);
   text-shadow: 0 2px 18px rgba(255, 255, 255, 0.85);
 }
 
@@ -530,7 +536,7 @@ body.opened .hero::before {
   font-family: var(--serif-a);
   font-weight: 600;
   letter-spacing: 0.02em;
-  font-size: clamp(42px, 7.5vw, 78px);
+  font-size: clamp(2.625rem, 5.8vh, 4.875rem);
   color: rgba(20, 20, 20, 0.95);
   text-shadow:
     0 2px 24px rgba(255, 255, 255, 0.85),
@@ -542,7 +548,7 @@ body.opened .hero::before {
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: rgba(0, 0, 0, 0.62);
-  font-size: 12px;
+  font-size: clamp(0.72rem, 1.55vh, 0.82rem);
   padding: 10px 14px;
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.70);
@@ -1111,51 +1117,6 @@ body.opened .hero::before {
   object-position: center;
 }
 
-.years-nav {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 44px;
-  height: 44px;
-  border-radius: 999px;
-  border: 1px solid rgba(0, 0, 0, 0.16);
-  background: rgba(255, 255, 255, 0.86);
-  backdrop-filter: blur(8px);
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.12);
-  cursor: pointer;
-  display: grid;
-  place-items: center;
-  font-family: var(--sans);
-  font-size: 22px;
-  color: rgba(60, 38, 24, 0.80);
-}
-
-.years-nav--prev {
-  left: 10px;
-}
-
-.years-nav--next {
-  right: 10px;
-}
-
-@media (max-width: 720px) {
-  .years-nav {
-    width: 40px;
-    height: 40px;
-    font-size: 20px;
-    left: auto;
-    right: auto;
-  }
-
-  .years-nav--prev {
-    left: 6px;
-  }
-
-  .years-nav--next {
-    right: 6px;
-  }
-}
-
 .card-footer {
   padding: 14px 16px;
   border-top: 1px solid rgba(0, 0, 0, 0.06);
@@ -1280,6 +1241,14 @@ body.opened .hero::before {
 }
 
 @media (max-width: 720px) {
+  .hero::before {
+    background-position: center 72%;
+  }
+
+  .down {
+    bottom: 26px;
+  }
+
   .details-grid {
     grid-template-columns: 1fr;
   }
